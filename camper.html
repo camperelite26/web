@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RutaCamper – Alquiler de campers y autocaravanas</title>
+
+<style>
+:root {
+  --azul: #1976D2;
+  --verde: #2E7D32;
+  --naranja: #FB8C00;
+  --gris-claro: #F5F5F5;
+  --gris-borde: #E0E0E0;
+  --texto: #222;
+  --max-width: 1100px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: system-ui, sans-serif;
+  background: var(--gris-claro);
+  color: var(--texto);
+  line-height: 1.6;
+}
+
+.contenedor {
+  max-width: var(--max-width);
+  margin: auto;
+  padding: 0 1.2rem;
+}
+
+/* HEADER */
+header {
+  background: #fff;
+  border-bottom: 1px solid var(--gris-borde);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .8rem 0;
+}
+.logo {
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  font-weight: bold;
+  color: var(--azul);
+}
+.logo span { color: var(--naranja); }
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+nav a {
+  text-decoration: none;
+  color: var(--texto);
+  padding: .4rem .7rem;
+  border-radius: 8px;
+  font-size: .95rem;
+}
+nav a:hover {
+  background: var(--azul);
+  color: #fff;
+}
+
+.menu-btn {
+  display: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+/* BOTONES */
+.btn {
+  padding: .7rem 1.2rem;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+  font-size: .95rem;
+}
+.btn-primario {
+  background: var(--verde);
+  color: #fff;
+}
+.btn-primario:hover { background: #1b5e20; }
+.btn-secundario {
+  background: #fff;
+  border: 2px solid var(--verde);
+  color: var(--verde);
+}
+.btn-secundario:hover {
+  background: var(--verde);
+  color: #fff;
+}
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, var(--azul), var(--verde));
+  color: #fff;
+  padding: 3rem 0;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+.hero h1 {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  margin-bottom: 1rem;
+}
+.hero p {
+  max-width: 500px;
+  margin-bottom: 1.5rem;
+  font-size: clamp(.95rem, 2vw, 1.1rem);
+}
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* SECCIONES */
+section {
+  padding: 3rem 0;
+}
+section h2 {
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  margin-bottom: .5rem;
+  color: var(--azul);
+}
+.section-desc {
+  max-width: 600px;
+  margin-bottom: 2rem;
+  color: #555;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  gap: 1.5rem;
+}
+.grid-3 {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+/* TARJETAS VEHÍCULOS */
+.card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 14px;
+  border: 1px solid var(--gris-borde);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* GALERÍA */
+.gallery {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  margin-bottom: .8rem;
+}
+.gallery img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: none;
+}
+.gallery img.active {
+  display: block;
+}
+.gallery-buttons {
+  display: flex;
+  justify-content: center;
+  gap: .5rem;
+  margin-top: .5rem;
+}
+.gallery-buttons button {
+  background: var(--azul);
+  color: #fff;
+  border: none;
+  padding: .3rem .6rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.gallery-buttons button:hover {
+  background: var(--verde);
+}
+
+/* ICONOS EQUIPAMIENTO */
+.equipamiento {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-top: .8rem;
+}
+.equip-item {
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+  background: var(--gris-claro);
+  padding: .3rem .6rem;
+  border-radius: 8px;
+  font-size: .85rem;
+}
+
+/* BOTONES DE RESERVA CON LOGOS */
+.reserva-logos {
+  display: flex;
+  gap: .5rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+.reserva-logos a {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  background: #fff;
+  border: 2px solid var(--azul);
+  padding: .5rem .8rem;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--azul);
+  font-weight: bold;
+}
+.reserva-logos img {
+  height: 22px;
+}
+
+/* CÓMO FUNCIONA */
+.pasos {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+.paso {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--gris-borde);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+.paso h3 {
+  color: var(--verde);
+  margin-bottom: .3rem;
+}
+
+/* CONTACTO */
+form {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 14px;
+  border: 1px solid var(--gris-borde);
+}
+.campo { margin-bottom: 1rem; }
+.campo label {
+  display: block;
+  margin-bottom: .3rem;
+  font-weight: bold;
+}
+.campo input,
+.campo textarea {
+  width: 100%;
+  padding: .7rem;
+  border-radius: 10px;
+  border: 1px solid var(--gris-borde);
+  font-size: 1rem;
+}
+textarea { min-height: 100px; }
+
+footer {
+  background: #fff;
+  border-top: 1px solid var(--gris-borde);
+  padding: 1.5rem 0;
+  text-align: center;
+  color: #777;
+}
+
+@media (max-width: 900px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+@media (max-width: 768px) {
+  nav ul { display: none; }
+  .menu-btn { display: block; }
+}
+@media (max-width: 480px) {
+  .btn { width: 100%; text-align: center; }
+}
+.reserva-titulo {
+  margin-top: 1rem;
+  margin-bottom: .5rem;
+  text-align: left;
+}
+
+.reserva-titulo h4 {
+  font-size: 1.1rem;
+  color: var(--azul);
+  margin-bottom: .2rem;
+}
+
+.reserva-titulo p {
+  font-size: .9rem;
+  color: #555;
+}
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="contenedor nav">
+    <div class="logo">Ruta<span>Camper</span></div>
+
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+    <nav>
+      <ul id="menu">
+        <li><a href="#flota">Flota</a></li>
+        <li><a href="#como">Cómo funciona</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <a href="#contacto" class="btn btn-primario">Contacto</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="contenedor hero-grid">
+    <div>
+      <h1>Alquiler de campers y autocaravanas</h1>
+      <p>Reserva nuestras campers y autocaravanas directamente en Yescapa o IndieCampers.</p>
+      <div class="hero-buttons">
+        <a href="#flota" class="btn btn-secundario">Ver vehículos</a>
+        <a href="#contacto" class="btn btn-primario">Contacto</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="flota">
+  <div class="contenedor">
+    <h2>Nuestra flota</h2>
+    <p class="section-desc">Tres vehículos para distintos tipos de viaje: urbano, naturaleza, familia o grupo.</p>
+
+    <div class="grid grid-3">
+
+      <!-- Opel Vivaro -->
+      <div class="card">
+        <div class="gallery" id="galVivaro">
+          <img src="vivaro.jpeg" class="active">
+          <img src="vivaro2.jpg">
+          <img src="vivaro3.jpg">
+        </div>
+        <div class="gallery-buttons">
+          <button onclick="galeria('galVivaro',0)">1</button>
+          <button onclick="galeria('galVivaro',1)">2</button>
+          <button onclick="galeria('galVivaro',2)">3</button>
+        </div>
+
+        <h3>Opel Vivaro Camperizada</h3>
+        <div class="card-sub">5 plazas viajar · 4 dormir (4 adultos)</div>
+
+        <div class="equipamiento">
+          <div class="equip-item">🛏️ Cama doble</div>
+          <div class="equip-item">🛏️ Cama techo elevable</div>
+          <div class="equip-item">🍳 Cocina portátil</div>
+          <div class="equip-item">⛺ Toldo exterior</div>
+        </div>
+
+        <div class="card-precio">Desde 95 €/día</div>
+		<div class="reserva-titulo">
+			<h4>Reserva ahora tu aventura</h4>
+			<p>Elige la plataforma que prefieras y confirma tus fechas.</p>
+		</div>
+        <div class="reserva-logos">
+          <a href="https://www.yescapa.es" target="_blank">
+            <img src="https://www.yescapa.es/_assets_dyn/logo.svg"> Yescapa
+          </a>
+          <a href="https://www.indiecampers.com" target="_blank">
+            <img src="https://assets.indiecampers.com/discover/_next/static/media/logo-inverted.2886wuqgzt3rc.svg?w=128&q=75"> IndieCampers
+          </a>
+        </div>
+      </div>
+
+      <!-- Autocaravana CI L51 -->
+      <div class="card">
+        <div class="gallery" id="galAuto">
+          <img src="autocaravana.jpeg" class="active">
+          <img src="auto2.jpg">
+          <img src="auto3.jpg">
+        </div>
+        <div class="gallery-buttons">
+          <button onclick="galeria('galAuto',0)">1</button>
+          <button onclick="galeria('galAuto',1)">2</button>
+          <button onclick="galeria('galAuto',2)">3</button>
+        </div>
+
+        <h3>Autocaravana CI L51</h3>
+        <div class="card-sub">4 viajar · 2 adultos + 1 niño dormir</div>
+
+        <div class="equipamiento">
+          <div class="equip-item">🚿 Ducha</div>
+          <div class="equip-item">🚽 WC</div>
+          <div class="equip-item">🍳 Cocina completa</div>
+          <div class="equip-item">🛏️ Camas</div>
+		  <div class="equip-item">⛺ Toldo exterior</div>
+        </div>
+
+        <div class="card-precio">Desde 110 €/día</div>
+		<div class="reserva-titulo">
+			<h4>Reserva ahora tu aventura</h4>
+			<p>Elige la plataforma que prefieras y confirma tus fechas.</p>
+		</div>
+
+        <div class="reserva-logos">
+          <a href="https://www.yescapa.es" target="_blank">
+            <img src="https://www.yescapa.es/_assets_dyn/logo.svg"> Yescapa
+          </a>
+          <a href="https://www.indiecampers.com" target="_blank">
+            <img src="https://assets.indiecampers.com/discover/_next/static/media/logo-inverted.2886wuqgzt3rc.svg?w=128&q=75"> IndieCampers
+          </a>
+        </div>
+      </div>
+
+      <!-- Mercedes Vito -->
+      <div class="card">
+        <div class="gallery" id="galVito">
+          <img src="vito.jpeg" class="active">
+          <img src="vito2.jpg">
+          <img src="vito3.jpg">
+        </div>
+        <div class="gallery-buttons">
+          <button onclick="galeria('galVito',0)">1</button>
+          <button onclick="galeria('galVito',1)">2</button>
+          <button onclick="galeria('galVito',2)">3</button>
+        </div>
+
+        <h3>Mercedes Vito Camperizada</h3>
+        <div class="card-sub">4 viajar · 2 dormir</div>
+
+        <div class="equipamiento">
+          <div class="equip-item">🛏️ Cama doble</div>
+          <div class="equip-item">🍳 Cocina portátil</div>
+          <div class="equip-item">🔌 Conexión exterior</div>
+        </div>
+
+        <div class="card-precio">Desde 85 €/día</div>
+		<div class="reserva-titulo">
+			<h4>Reserva ahora tu aventura</h4>
+			<p>Elige la plataforma que prefieras y confirma tus fechas.</p>
+		</div>
+        <div class="reserva-logos">
+          <a href="https://www.yescapa.es" target="_blank">
+            <img src="https://www.yescapa.es/_assets_dyn/logo.svg"> Yescapa
+          </a>
+          <a href="https://www.indiecampers.com" target="_blank">
+            <img src="https://assets.indiecampers.com/discover/_next/static/media/logo-inverted.2886wuqgzt3rc.svg?w=128&q=75"> IndieCampers
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="como">
+  <div class="contenedor">
+    <h2>Cómo funciona</h2>
+    <p class="section-desc">Reservar tu camper o autocaravana es muy sencillo.</p>
+
+    <div class="pasos">
+      <div class="paso">
+        <h3>1. Elige tu vehículo</h3>
+        <p>Selecciona la camper o autocaravana que mejor se adapte a tu viaje.</p>
+      </div>
+      <div class="paso">
+        <h3>2. Reserva en Yescapa o IndieCampers</h3>
+        <p>Accede a la plataforma y confirma tus fechas de viaje.</p>
+      </div>
+      <div class="paso">
+        <h3>3. Recoge el vehículo</h3>
+        <p>Te explicamos todo el funcionamiento y equipamiento antes de salir.</p>
+      </div>
+      <div class="paso">
+        <h3>4. Disfruta la ruta</h3>
+        <p>Viaja con libertad total y asistencia incluida.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contacto">
+  <div class="contenedor">
+    <h2>Contacto</h2>
+    <p class="section-desc">Si tienes dudas, escríbenos y te ayudamos.</p>
+
+    <form>
+      <div class="campo">
+        <label>Nombre</label>
+        <input type="text" placeholder="Tu nombre">
+      </div>
+      <div class="campo">
+        <label>Email</label>
+        <input type="email" placeholder="tucorreo@ejemplo.com">
+      </div>
+      <div class="campo">
+        <label>Mensaje</label>
+        <textarea placeholder="Tu consulta..."></textarea>
+      </div>
+      <button class="btn btn-primario" type="submit">Enviar</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  © <span id="year"></span> RutaCamper · Alquiler de campers y autocaravanas
+</footer>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+
+function toggleMenu() {
+  const menu = document.getElementById("menu");
+  menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+}
+
+function galeria(id, index) {
+  const gal = document.getElementById(id);
+  const imgs = gal.querySelectorAll("img");
+  imgs.forEach(img => img.classList.remove("active"));
+  imgs[index].classList.add("active");
+}
+</script>
+
+</body>
+</html>
