@@ -1,545 +1,822 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Camper Élite – Alquiler y Rutas de campers y autocaravanas</title>
-
-<style>
-:root {
-  --azul: #1976D2;
-  --verde: #2E7D32;
-  --naranja: #FB8C00;
-  --gris-claro: #F5F5F5;
-  --gris-borde: #E0E0E0;
-  --texto: #222;
-  --max-width: 1100px;
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: system-ui, sans-serif;
-  background: var(--gris-claro);
-  color: var(--texto);
-  line-height: 1.6;
-}
-
-.contenedor {
-  max-width: var(--max-width);
-  margin: auto;
-  padding: 0 1.2rem;
-}
-
-/* HEADER */
-header {
-  background: #fff;
-  border-bottom: 1px solid var(--gris-borde);
-  position: sticky;
-  top: 0;
-  z-index: 20;
-}
-.nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: .8rem 0;
-}
-.logo {
-  font-size: clamp(1.2rem, 2vw, 1.5rem);
-  font-weight: bold;
-  color: var(--azul);
-}
-.logo span { color: var(--naranja); }
-
-nav ul {
-  list-style: none;
-  display: flex;
-  gap: 1rem;
-}
-nav a {
-  text-decoration: none;
-  color: var(--texto);
-  padding: .4rem .7rem;
-  border-radius: 8px;
-  font-size: .95rem;
-}
-nav a:hover {
-  background: var(--azul);
-  color: #fff;
-}
-
-.menu-btn {
-  display: none;
-  font-size: 1.8rem;
-  cursor: pointer;
-}
-
-/* BOTONES */
-.btn {
-  padding: .7rem 1.2rem;
-  border-radius: 10px;
-  text-decoration: none;
-  font-weight: bold;
-  display: inline-block;
-  font-size: .95rem;
-}
-.btn-primario {
-  background: var(--verde);
-  color: #fff;
-}
-.btn-primario:hover { background: #1b5e20; }
-.btn-secundario {
-  background: #fff;
-  border: 2px solid var(--verde);
-  color: var(--verde);
-}
-.btn-secundario:hover {
-  background: var(--verde);
-  color: #fff;
-}
-
-/* HERO */
-.hero {
-  background: linear-gradient(135deg, var(--azul), var(--verde));
-  color: #fff;
-  padding: 3rem 0;
-}
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  align-items: center;
-}
-.hero h1 {
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
-  margin-bottom: 1rem;
-}
-.hero p {
-  max-width: 500px;
-  margin-bottom: 1.5rem;
-  font-size: clamp(.95rem, 2vw, 1.1rem);
-}
-.hero-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-/* SECCIONES */
-section {
-  padding: 3rem 0;
-}
-section h2 {
-  font-size: clamp(1.4rem, 3vw, 1.9rem);
-  margin-bottom: .5rem;
-  color: var(--azul);
-}
-.section-desc {
-  max-width: 600px;
-  margin-bottom: 2rem;
-  color: #555;
-}
-
-/* GRID */
-.grid {
-  display: grid;
-  gap: 1.5rem;
-}
-.grid-3 {
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-}
-
-/* TARJETAS VEHÍCULOS */
-.card {
-  background: #fff;
-  padding: 1.5rem;
-  border-radius: 14px;
-  border: 1px solid var(--gris-borde);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
-
-/* GALERÍA */
-.gallery {
-  position: relative;
-  overflow: hidden;
-  border-radius: 12px;
-  margin-bottom: .8rem;
-}
-.gallery img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  display: none;
-}
-.gallery img.active {
-  display: block;
-}
-.gallery-buttons {
-  display: flex;
-  justify-content: center;
-  gap: .5rem;
-  margin-top: .5rem;
-}
-.gallery-buttons button {
-  background: var(--azul);
-  color: #fff;
-  border: none;
-  padding: .3rem .6rem;
-  border-radius: 6px;
-  cursor: pointer;
-}
-.gallery-buttons button:hover {
-  background: var(--verde);
-}
-
-/* ICONOS EQUIPAMIENTO */
-.equipamiento {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .5rem;
-  margin-top: .8rem;
-}
-.equip-item {
-  display: flex;
-  align-items: center;
-  gap: .3rem;
-  background: var(--gris-claro);
-  padding: .3rem .6rem;
-  border-radius: 8px;
-  font-size: .85rem;
-}
-
-/* BOTONES DE RESERVA CON LOGOS */
-.reserva-logos {
-  display: flex;
-  gap: .5rem;
-  margin-top: 1rem;
-  flex-wrap: wrap;
-}
-.reserva-logos a {
-  display: flex;
-  align-items: center;
-  gap: .4rem;
-  background: #fff;
-  border: 2px solid var(--azul);
-  padding: .5rem .8rem;
-  border-radius: 10px;
-  text-decoration: none;
-  color: var(--azul);
-  font-weight: bold;
-}
-.reserva-logos img {
-  height: 22px;
-}
-
-/* CÓMO FUNCIONA */
-.pasos {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-}
-.paso {
-  background: #fff;
-  padding: 1rem;
-  border-radius: 12px;
-  border: 1px solid var(--gris-borde);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
-.paso h3 {
-  color: var(--verde);
-  margin-bottom: .3rem;
-}
-
-/* CONTACTO */
-form {
-  background: #fff;
-  padding: 1.5rem;
-  border-radius: 14px;
-  border: 1px solid var(--gris-borde);
-}
-.campo { margin-bottom: 1rem; }
-.campo label {
-  display: block;
-  margin-bottom: .3rem;
-  font-weight: bold;
-}
-.campo input,
-.campo textarea {
-  width: 100%;
-  padding: .7rem;
-  border-radius: 10px;
-  border: 1px solid var(--gris-borde);
-  font-size: 1rem;
-}
-textarea { min-height: 100px; }
-
-footer {
-  background: #fff;
-  border-top: 1px solid var(--gris-borde);
-  padding: 1.5rem 0;
-  text-align: center;
-  color: #777;
-}
-
-@media (max-width: 900px) {
-  .hero-grid {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-}
-@media (max-width: 768px) {
-  nav ul { display: none; }
-  .menu-btn { display: block; }
-}
-@media (max-width: 480px) {
-  .btn { width: 100%; text-align: center; }
-}
-.reserva-titulo {
-  margin-top: 1rem;
-  margin-bottom: .5rem;
-  text-align: left;
-}
-
-.reserva-titulo h4 {
-  font-size: 1.1rem;
-  color: var(--azul);
-  margin-bottom: .2rem;
-}
-
-.reserva-titulo p {
-  font-size: .9rem;
-  color: #555;
-}
-
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Camper Élite – Alquiler y Rutas de Campers y Autocaravanas en Vitoria-Gasteiz</title>
+  <meta name="description"
+    content="Alquiler de campers y autocaravanas en Vitoria-Gasteiz (Calle Obispo Ballester 14). Rutas por Las Merindades, Cantabria y el Valle del Vézère en Francia. Reserva en Yescapa e IndieCampers.">
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
-<header>
-  <div class="contenedor nav">
-    <div class="logo">Camper<span>Élite</span></div>
+  <!-- HEADER / NAVEGACIÓN -->
+  <header>
+    <div class="contenedor nav">
+      <a href="#" class="logo">
+        Camper<span>Élite</span>
+        <span class="logo-badge">Vitoria-Gasteiz</span>
+      </a>
 
-    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+      <button class="menu-btn" onclick="toggleMenu()" aria-label="Abrir menú de navegación">☰</button>
 
-    <nav>
-      <ul id="menu">
-        <li><a href="#flota">Flota</a></li>
-        <li><a href="#como">Cómo funciona</a></li>
-        <li><a href="#contacto">Contacto</a></li>
-      </ul>
-    </nav>
+      <nav>
+        <ul id="menu">
+          <li><a href="#flota">Flota</a></li>
+          <li><a href="#como">Cómo funciona</a></li>
+          <li><a href="#rutas">Rutas (17)</a></li>
+          <li><a href="#contacto">Ubicación & Contacto</a></li>
+        </ul>
+      </nav>
 
-    <a href="#contacto" class="btn btn-primario">Contacto</a>
-  </div>
-</header>
+      <a href="#contacto" class="btn btn-primario">Recogida & Contacto</a>
+    </div>
+  </header>
 
-<section class="hero">
-  <div class="contenedor hero-grid">
-    <div>
-      <h1>Alquiler de campers y autocaravanas</h1>
-      <p>Reserva nuestras campers y autocaravanas directamente en Yescapa o IndieCampers.</p>
-      <div class="hero-buttons">
-        <a href="#flota" class="btn btn-secundario">Ver vehículos</a>
-        <a href="#contacto" class="btn btn-primario">Contacto</a>
+  <!-- SECCIÓN HERO -->
+  <section class="hero">
+    <div class="contenedor hero-grid">
+      <div>
+        <div class="hero-location-badge">📍 Base de recogida: Calle Obispo Ballester, 14 (Vitoria-Gasteiz)</div>
+        <h1>Alquiler de campers, autocaravanas y rutas turísticas</h1>
+        <p>Tu punto de partida perfecto en Vitoria-Gasteiz para explorar las Merindades de Burgos, los valles y costas
+          de Cantabria y los castillos de Francia. Reserva directamente en Yescapa e IndieCampers.</p>
+        <div class="hero-buttons">
+          <a href="#flota" class="btn btn-secundario">Ver nuestra flota</a>
+          <a href="#rutas" class="btn btn-naranja">Ver las 17 rutas recomendadas 🗺️</a>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <h3>17</h3>
+          <p>Rutas detalladas</p>
+        </div>
+        <div class="stat-item">
+          <h3>Vitoria</h3>
+          <p>Base estratégica</p>
+        </div>
+        <div class="stat-item">
+          <h3>100%</h3>
+          <p>Seguro & Asistencia</p>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="flota">
-  <div class="contenedor">
-    <h2>Nuestra flota</h2>
-    <p class="section-desc">Tres vehículos para distintos tipos de viaje: urbano, naturaleza, familia o grupo.</p>
-
-    <div class="grid grid-3">
-
-      <!-- Opel Vivaro -->
-      <div class="card">
-        <div class="gallery" id="galVivaro">
-          <img src="vivaro.jpeg" class="active">
-          <img src="vivaro2.jpg">
-          <img src="vivaro3.jpg">
-        </div>
-        <div class="gallery-buttons">
-          <button onclick="galeria('galVivaro',0)">1</button>
-          <button onclick="galeria('galVivaro',1)">2</button>
-          <button onclick="galeria('galVivaro',2)">3</button>
-        </div>
-
-        <h3>Opel Vivaro Camperizada</h3>
-        <div class="card-sub">5 plazas viajar · 4 dormir (4 adultos)</div>
-
-        <div class="equipamiento">
-          <div class="equip-item">🛏️ Cama doble</div>
-          <div class="equip-item">🛏️ Cama techo elevable</div>
-          <div class="equip-item">🍳 Cocina portátil</div>
-          <div class="equip-item">⛺ Toldo exterior</div>
-        </div>
-
-        <div class="card-precio">Desde 95 €/día</div>
-		<div class="reserva-titulo">
-			<h4>Reserva ahora tu aventura</h4>
-			<p>Elige la plataforma que prefieras y confirma tus fechas.</p>
-		</div>
-        <div class="reserva-logos">
-          <a href="https://www.yescapa.es" target="_blank">
-            <img src="https://www.yescapa.es/_assets_dyn/logo.svg"> Yescapa
-          </a>
-          <a href="https://www.indiecampers.com" target="_blank">
-            <img src="https://assets.indiecampers.com/discover/_next/static/media/logo-inverted.2886wuqgzt3rc.svg?w=128&q=75"> IndieCampers
-          </a>
-        </div>
+  <!-- SECCIÓN 1: FLOTA -->
+  <section id="flota">
+    <div class="contenedor">
+      <div class="section-header">
+        <span class="section-badge">Nuestra Flota en Vitoria</span>
+        <h2>Vehículos listos para salir a la carretera</h2>
+        <p class="section-desc">Tres modelos completamente equipados con recogida directa en nuestra sede de
+          Vitoria-Gasteiz.</p>
       </div>
 
-      <!-- Autocaravana CI L51 -->
-      <div class="card">
-        <div class="gallery" id="galAuto">
-          <img src="autocaravana.jpeg" class="active">
-          <img src="auto2.jpg">
-          <img src="auto3.jpg">
-        </div>
-        <div class="gallery-buttons">
-          <button onclick="galeria('galAuto',0)">1</button>
-          <button onclick="galeria('galAuto',1)">2</button>
-          <button onclick="galeria('galAuto',2)">3</button>
+      <div class="grid grid-3">
+
+        <!-- Tarjeta 1: Opel Vivaro -->
+        <div class="card">
+          <div class="gallery-container">
+            <div class="gallery" id="galVivaro">
+              <img src="vivaro.jpeg" class="active" alt="Opel Vivaro Camper exterior en plena naturaleza">
+              <img src="vivaro2.jpg" alt="Interior acogedor de la Opel Vivaro camperizada con cama doble y cocina">
+              <img src="vivaro3.jpg" alt="Opel Vivaro camper aparcada junto a un acantilado costero al atardecer">
+            </div>
+            <div class="gallery-buttons">
+              <button onclick="galeria('galVivaro',0)" class="active" aria-label="Ver foto 1 de Opel Vivaro">1</button>
+              <button onclick="galeria('galVivaro',1)" aria-label="Ver foto 2 de Opel Vivaro">2</button>
+              <button onclick="galeria('galVivaro',2)" aria-label="Ver foto 3 de Opel Vivaro">3</button>
+            </div>
+          </div>
+
+          <div class="card-content">
+            <h3>Opel Vivaro Camperizada</h3>
+            <div class="card-sub">5 plazas viajar · 4 plazas dormir (4 adultos)</div>
+
+            <div class="equipamiento">
+              <div class="equip-item">🛏️ Cama doble inferior</div>
+              <div class="equip-item">🛏️ Cama techo elevable</div>
+              <div class="equip-item">🍳 Cocina portátil gas</div>
+              <div class="equip-item">⛺ Toldo exterior</div>
+              <div class="equip-item">🧊 Nevera congelador</div>
+            </div>
+
+            <div class="card-precio">Desde 95 € / día</div>
+
+            <div class="reserva-titulo">
+              <h4>Reserva ahora tu aventura</h4>
+              <p>Confirma tus fechas en tu plataforma favorita:</p>
+            </div>
+            <div class="reserva-logos">
+              <a href="https://www.yescapa.es" target="_blank" rel="noopener noreferrer">
+                <img src="https://www.yescapa.es/_assets_dyn/logo.svg" alt="Logo Yescapa"> Yescapa
+              </a>
+              <a href="https://www.indiecampers.com" target="_blank" rel="noopener noreferrer">
+                <img
+                  src="https://assets.indiecampers.com/discover/_next/static/media/logo-inverted.2886wuqgzt3rc.svg?w=128&q=75"
+                  alt="Logo IndieCampers"> IndieCampers
+              </a>
+            </div>
+          </div>
         </div>
 
-        <h3>Autocaravana CI L51</h3>
-        <div class="card-sub">4 viajar · 2 adultos + 1 niño dormir</div>
+        <!-- Tarjeta 2: Autocaravana CI L51 -->
+        <div class="card">
+          <div class="gallery-container">
+            <div class="gallery" id="galAuto">
+              <img src="autocaravana.jpeg" class="active" alt="Autocaravana CI L51 perfilada exterior">
+              <img src="auto2.jpg" alt="Interior espacioso de la Autocaravana CI L51 con salón comedor y cocina">
+              <img src="auto3.jpg" alt="Autocaravana CI L51 acampada en un valle de montaña con toldo desplegado">
+            </div>
+            <div class="gallery-buttons">
+              <button onclick="galeria('galAuto',0)" class="active" aria-label="Ver foto 1 de Autocaravana">1</button>
+              <button onclick="galeria('galAuto',1)" aria-label="Ver foto 2 de Autocaravana">2</button>
+              <button onclick="galeria('galAuto',2)" aria-label="Ver foto 3 de Autocaravana">3</button>
+            </div>
+          </div>
 
-        <div class="equipamiento">
-          <div class="equip-item">🚿 Ducha</div>
-          <div class="equip-item">🚽 WC</div>
-          <div class="equip-item">🍳 Cocina completa</div>
-          <div class="equip-item">🛏️ Camas</div>
-		  <div class="equip-item">⛺ Toldo exterior</div>
+          <div class="card-content">
+            <h3>Autocaravana CI L51</h3>
+            <div class="card-sub">4 plazas viajar · 2 adultos + 1 niño dormir</div>
+
+            <div class="equipamiento">
+              <div class="equip-item">🚿 Ducha caliente</div>
+              <div class="equip-item">🚽 WC químico</div>
+              <div class="equip-item">🍳 Cocina completa</div>
+              <div class="equip-item">🔥 Calefacción estacionaria</div>
+              <div class="equip-item">⛺ Toldo protector</div>
+            </div>
+
+            <div class="card-precio">Desde 110 € / día</div>
+
+            <div class="reserva-titulo">
+              <h4>Reserva ahora tu aventura</h4>
+              <p>Confirma tus fechas en tu plataforma favorita:</p>
+            </div>
+
+            <div class="reserva-logos">
+              <a href="https://www.yescapa.es" target="_blank" rel="noopener noreferrer">
+                <img src="https://www.yescapa.es/_assets_dyn/logo.svg" alt="Logo Yescapa"> Yescapa
+              </a>
+              <a href="https://www.indiecampers.com" target="_blank" rel="noopener noreferrer">
+                <img
+                  src="https://assets.indiecampers.com/discover/_next/static/media/logo-inverted.2886wuqgzt3rc.svg?w=128&q=75"
+                  alt="Logo IndieCampers"> IndieCampers
+              </a>
+            </div>
+          </div>
         </div>
 
-        <div class="card-precio">Desde 110 €/día</div>
-		<div class="reserva-titulo">
-			<h4>Reserva ahora tu aventura</h4>
-			<p>Elige la plataforma que prefieras y confirma tus fechas.</p>
-		</div>
+        <!-- Tarjeta 3: Mercedes Vito -->
+        <div class="card">
+          <div class="gallery-container">
+            <div class="gallery" id="galVito">
+              <img src="vito.jpeg" class="active" alt="Mercedes Vito camperizada de color oscuro">
+              <img src="vito2.jpg" alt="Interior inteligente de la Mercedes Vito con cama elevable y luz LED">
+              <img src="vito3.jpg" alt="Mercedes Vito camperizada en ruta por una carretera de montaña entre pinos">
+            </div>
+            <div class="gallery-buttons">
+              <button onclick="galeria('galVito',0)" class="active" aria-label="Ver foto 1 de Mercedes Vito">1</button>
+              <button onclick="galeria('galVito',1)" aria-label="Ver foto 2 de Mercedes Vito">2</button>
+              <button onclick="galeria('galVito',2)" aria-label="Ver foto 3 de Mercedes Vito">3</button>
+            </div>
+          </div>
 
-        <div class="reserva-logos">
-          <a href="https://www.yescapa.es" target="_blank">
-            <img src="https://www.yescapa.es/_assets_dyn/logo.svg"> Yescapa
-          </a>
-          <a href="https://www.indiecampers.com" target="_blank">
-            <img src="https://assets.indiecampers.com/discover/_next/static/media/logo-inverted.2886wuqgzt3rc.svg?w=128&q=75"> IndieCampers
-          </a>
+          <div class="card-content">
+            <h3>Mercedes Vito Camperizada</h3>
+            <div class="card-sub">4 plazas viajar · 2 plazas dormir</div>
+
+            <div class="equipamiento">
+              <div class="equip-item">🛏️ Cama doble confortable</div>
+              <div class="equip-item">🍳 Cocina portátil</div>
+              <div class="equip-item">🔌 Toma corriente exterior</div>
+              <div class="equip-item">🚲 Portabicicletas</div>
+            </div>
+
+            <div class="card-precio">Desde 85 € / día</div>
+
+            <div class="reserva-titulo">
+              <h4>Reserva ahora tu aventura</h4>
+              <p>Confirma tus fechas en tu plataforma favorita:</p>
+            </div>
+            <div class="reserva-logos">
+              <a href="https://www.yescapa.es" target="_blank" rel="noopener noreferrer">
+                <img src="https://www.yescapa.es/_assets_dyn/logo.svg" alt="Logo Yescapa"> Yescapa
+              </a>
+              <a href="https://www.indiecampers.com" target="_blank" rel="noopener noreferrer">
+                <img
+                  src="https://assets.indiecampers.com/discover/_next/static/media/logo-inverted.2886wuqgzt3rc.svg?w=128&q=75"
+                  alt="Logo IndieCampers"> IndieCampers
+              </a>
+            </div>
+          </div>
         </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 2: CÓMO FUNCIONA -->
+  <section id="como">
+    <div class="contenedor">
+      <div class="section-header">
+        <span class="section-badge">Proceso Sencillo</span>
+        <h2>¿Cómo funciona el alquiler en Camper Élite?</h2>
+        <p class="section-desc">En solo 4 pasos estarás al volante iniciando tu viaje desde nuestra sede en
+          Vitoria-Gasteiz.</p>
       </div>
 
-      <!-- Mercedes Vito -->
-      <div class="card">
-        <div class="gallery" id="galVito">
-          <img src="vito.jpeg" class="active">
-          <img src="vito2.jpg">
-          <img src="vito3.jpg">
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-numero">1</div>
+          <h3>Elige vehículo y ruta</h3>
+          <p>Explora nuestras 17 rutas recomendadas y escoge la camper o autocaravana que mejor encaje con tu grupo.</p>
         </div>
-        <div class="gallery-buttons">
-          <button onclick="galeria('galVito',0)">1</button>
-          <button onclick="galeria('galVito',1)">2</button>
-          <button onclick="galeria('galVito',2)">3</button>
+        <div class="paso">
+          <div class="paso-numero">2</div>
+          <h3>Reserva protegida</h3>
+          <p>Entra en Yescapa o IndieCampers para seleccionar tus fechas con seguro a todo riesgo y fianza protegida.
+          </p>
+        </div>
+        <div class="paso">
+          <div class="paso-numero">3</div>
+          <h3>Recogida en Vitoria-Gasteiz</h3>
+          <p>Te entregamos el vehículo en Calle Obispo Ballester 14 y te explicamos el funcionamiento completo.</p>
+        </div>
+        <div class="paso">
+          <div class="paso-numero">4</div>
+          <h3>¡Inicia la aventura!</h3>
+          <p>Disfruta de la libertad del viaje camper con soporte y asistencia 24h durante toda tu ruta.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 3: RUTAS (CON FOTOS REPRESENTATIVAS OFICIALES DE CADA ARTÍCULO) -->
+  <section id="rutas">
+    <div class="contenedor">
+      <div class="section-header">
+        <span class="section-badge">Catálogo Completo</span>
+        <h2>Rutas Sugeridas desde Vitoria-Gasteiz <span class="rutas-count-badge">17 Rutas</span></h2>
+        <p class="section-desc">Itinerarios documentados con fotos originales para recorrer Las Merindades, Cantabria y
+          la Dordoña francesa.</p>
+      </div>
+
+      <!-- Filtros por Categoría -->
+      <div class="rutas-filtros">
+        <button class="filtro-btn active" onclick="filtrarRutas('todas', this)">Todas (17)</button>
+        <button class="filtro-btn" onclick="filtrarRutas('merindades', this)">🏰 Las Merindades (3)</button>
+        <button class="filtro-btn" onclick="filtrarRutas('cantabria-costa', this)">🌊 Cantabria Costa (3)</button>
+        <button class="filtro-btn" onclick="filtrarRutas('cantabria-interior', this)">🌿 Cantabria Interior (8)</button>
+        <button class="filtro-btn" onclick="filtrarRutas('liebana-montana', this)">🏔️ Liébana & Puertos (2)</button>
+        <button class="filtro-btn" onclick="filtrarRutas('francia', this)">🇫🇷 Francia / Vézère (1)</button>
+      </div>
+
+      <div class="grid grid-3">
+
+        <!-- RUTA 1: Merindades Fin de Semana -->
+        <div class="ruta-card" data-categoria="merindades">
+          <div class="ruta-img-wrapper">
+            <img src="ruta_merindades_finde.jpg" alt="Panorámica medieval de Frías y las Merindades">
+            <span class="ruta-badge">🏰 Las Merindades</span>
+          </div>
+          <div class="ruta-content">
+            <div class="ruta-meta">
+              <span>⏱️ 2 Días (Fin de Semana)</span>
+              <span>📍 180 km</span>
+            </div>
+            <h3 class="ruta-title">Las Merindades en un Fin de Semana</h3>
+            <p class="ruta-desc">Escapada perfecta desde Vitoria visitando el castillo medieval de Frías, las cascadas
+              de Tobera y el complejo kárstico de Ojo Guareña.</p>
+            <div class="ruta-puntos">
+              <strong>Puntos clave:</strong> Frías, Tobera, Ojo Guareña, Puentedey.
+            </div>
+            <div class="ruta-fuente">🔗 Fuente: Senderos de las Merindades</div>
+            <div class="ruta-footer">
+              <button class="btn btn-secundario" onclick="abrirRutaModal('merindades_finde')" style="width: 100%;">Ver
+                Itinerario Completo</button>
+            </div>
+          </div>
         </div>
 
-        <h3>Mercedes Vito Camperizada</h3>
-        <div class="card-sub">4 viajar · 2 dormir</div>
-
-        <div class="equipamiento">
-          <div class="equip-item">🛏️ Cama doble</div>
-          <div class="equip-item">🍳 Cocina portátil</div>
-          <div class="equip-item">🔌 Conexión exterior</div>
+        <!-- RUTA 2: Merindades 3 o 4 Días -->
+        <div class="ruta-card" data-categoria="merindades">
+          <div class="ruta-img-wrapper">
+            <img src="ruta_merindades_3_4.jpg" alt="Frías y desfiladeros de Las Merindades">
+            <span class="ruta-badge">🏰 Las Merindades</span>
+          </div>
+          <div class="ruta-content">
+            <div class="ruta-meta">
+              <span>⏱️ 3 - 4 Días</span>
+              <span>📍 280 km</span>
+            </div>
+            <h3 class="ruta-title">Qué ver en Las Merindades en 3 o 4 Días</h3>
+            <p class="ruta-desc">Recorrido por castillos medievales, cascadas espectaculares y el famoso pueblo con
+              cascada de Orbaneja del Castillo.</p>
+            <div class="ruta-puntos">
+              <strong>Puntos clave:</strong> Medina de Pomar, Espinosa de los Monteros, Orbaneja del Castillo, Cañón del
+              Ebro.
+            </div>
+            <div class="ruta-fuente">🔗 Fuente: Senderos de las Merindades</div>
+            <div class="ruta-footer">
+              <button class="btn btn-secundario" onclick="abrirRutaModal('merindades_3_4')" style="width: 100%;">Ver
+                Itinerario Completo</button>
+            </div>
+          </div>
         </div>
 
-        <div class="card-precio">Desde 85 €/día</div>
-		<div class="reserva-titulo">
-			<h4>Reserva ahora tu aventura</h4>
-			<p>Elige la plataforma que prefieras y confirma tus fechas.</p>
-		</div>
-        <div class="reserva-logos">
-          <a href="https://www.yescapa.es" target="_blank">
-            <img src="https://www.yescapa.es/_assets_dyn/logo.svg"> Yescapa
-          </a>
-          <a href="https://www.indiecampers.com" target="_blank">
-            <img src="https://assets.indiecampers.com/discover/_next/static/media/logo-inverted.2886wuqgzt3rc.svg?w=128&q=75"> IndieCampers
-          </a>
+        <!-- RUTA 3: Merindades 5 Días -->
+        <div class="ruta-card" data-categoria="merindades">
+          <div class="ruta-img-wrapper">
+            <img src="ruta_merindades_5dias.jpg" alt="Monasterio de Oña y valles pasiegos en Las Merindades">
+            <span class="ruta-badge">🏰 Las Merindades</span>
+          </div>
+          <div class="ruta-content">
+            <div class="ruta-meta">
+              <span>⏱️ 5 Días</span>
+              <span>📍 380 km</span>
+            </div>
+            <h3 class="ruta-title">Gran Ruta por Las Merindades en 5 Días</h3>
+            <p class="ruta-desc">Ruta completa por el norte de Burgos: cascada de Pedrosa de Tobalina, desfiladeros,
+              casonas hidalgas y valles pasiegos burgaleses.</p>
+            <div class="ruta-puntos">
+              <strong>Puntos clave:</strong> Valle de Mena, Picón Blanco, Lunada, Pedrosa de Tobalina, Ojo Guareña.
+            </div>
+            <div class="ruta-fuente">🔗 Fuente: Senderos de las Merindades</div>
+            <div class="ruta-footer">
+              <button class="btn btn-secundario" onclick="abrirRutaModal('merindades_5dias')" style="width: 100%;">Ver
+                Itinerario Completo</button>
+            </div>
+          </div>
         </div>
+
+        <!-- RUTA 4: Valles Pasiegos -->
+        <div class="ruta-card" data-categoria="cantabria-interior">
+          <div class="ruta-img-wrapper">
+            <img src="ruta_valles_pasiegos.jpg" alt="Valles pasiegos y mar de nubes en Puerto de Lunada">
+            <span class="ruta-badge">🌿 Cantabria Interior</span>
+          </div>
+          <div class="ruta-content">
+            <div class="ruta-meta">
+              <span>⏱️ 3 Días</span>
+              <span>📍 220 km</span>
+            </div>
+            <h3 class="ruta-title">Ruta por los Valles Pasiegos</h3>
+            <p class="ruta-desc">Adéntrate en los prados verdes y puertos de montaña del corazón de Cantabria,
+              degustando los famosos sobaos y quesadas artesanales.</p>
+            <div class="ruta-puntos">
+              <strong>Puntos clave:</strong> Selaya, Vega de Pas, San Roque de Riomiera, Liérganes.
+            </div>
+            <div class="ruta-fuente">🔗 Fuente: Rutas por Cantabria</div>
+            <div class="ruta-footer">
+              <button class="btn btn-secundario" onclick="abrirRutaModal('valles_pasiegos')" style="width: 100%;">Ver
+                Itinerario Completo</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RUTA 5: Villas Marineras -->
+        <div class="ruta-card" data-categoria="cantabria-costa">
+          <div class="ruta-img-wrapper">
+            <img src="ruta_villas_marineras.jpg" alt="Santillana del Mar y villas marineras de Cantabria">
+            <span class="ruta-badge">🌊 Cantabria Costa</span>
+          </div>
+          <div class="ruta-content">
+            <div class="ruta-meta">
+              <span>⏱️ 4 - 5 Días</span>
+              <span>📍 260 km</span>
+            </div>
+            <h3 class="ruta-title">Ruta por las Villas Marineras de Cantabria</h3>
+            <p class="ruta-desc">Ruta costera por los puertos pesqueros más emblemáticos, playas de arena dorada, faros
+              y gastronomía de pescado y marisco.</p>
+            <div class="ruta-puntos">
+              <strong>Puntos clave:</strong> Castro Urdiales, Laredo, Santoña, Suances, Comillas, San Vicente de la
+              Barquera.
+            </div>
+            <div class="ruta-fuente">🔗 Fuente: Rutas por Cantabria</div>
+            <div class="ruta-footer">
+              <button class="btn btn-secundario" onclick="abrirRutaModal('villas_marineras')" style="width: 100%;">Ver
+                Itinerario Completo</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RUTA 6: Interior Desconocido de Cantabria -->
+        <div class="ruta-card" data-categoria="cantabria-interior">
+          <div class="ruta-img-wrapper">
+            <img src="ruta_interior_desconocido.jpg" alt="Mirador de La Piquere en el interior de Cantabria">
+            <span class="ruta-badge">🌿 Cantabria Interior</span>
+          </div>
+          <div class="ruta-content">
+            <div class="ruta-meta">
+              <span>⏱️ 3 Días</span>
+              <span>📍 210 km</span>
+            </div>
+            <h3 class="ruta-title">Ruta por el Interior Desconocido de Cantabria</h3>
+            <p class="ruta-desc">Descubre valles secretos sin aglomeraciones entre ríos de montaña, vacas tudancas y
+              bosques autóctonos bien conservados.</p>
+            <div class="ruta-puntos">
+              <strong>Puntos clave:</strong> Valle de Toranzo, Alceda, Carmona, Tudanca, Embalse de La Cohilla.
+            </div>
+            <div class="ruta-fuente">🔗 Fuente: Rutas por Cantabria</div>
+            <div class="ruta-footer">
+              <button class="btn btn-secundario" onclick="abrirRutaModal('interior_desconocido')"
+                style="width: 100%;">Ver Itinerario Completo</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RUTA 7: Carlos V -->
+        <div class="ruta-card" data-categoria="cantabria-interior">
+          <div class="ruta-img-wrapper">
+            <img src="ruta_carlos_v.jpg" alt="Vistas de la bahía de Laredo desde la Atalaya">
+            <span class="ruta-badge">🏰 Ruta Histórica</span>
+          </div>
+          <div class="ruta-content">
+            <div class="ruta-meta">
+              <span>⏱️ 4 Días</span>
+              <span>📍 310 km</span>
+            </div>
+            <h3 class="ruta-title">Ruta del Emperador Carlos V</h3>
+            <p class="ruta-desc">Sigue el histórico camino real que recorrió el Emperador en 1556 desde el puerto de
+              Laredo cruzando la cordillera Cantábrica.</p>
+            <div class="ruta-puntos">
+              <strong>Puntos clave:</strong> Laredo, Colindres, Ampuero, Limpias, Medina de Pomar.
+            </div>
+            <div class="ruta-fuente">🔗 Fuente: Rutas por Cantabria</div>
+            <div class="ruta-footer">
+              <button class="btn btn-secundario" onclick="abrirRutaModal('carlos_v')" style="width: 100%;">Ver
+                Itinerario Completo</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RUTA 8: Cuevas Prehistóricas UNESCO -->
+        <div class="ruta-card" data-categoria="cantabria-interior">
+          <div class="ruta-img-wrapper">
+            <img src="ruta_cuevas_prehistoricas.jpg" alt="Entorno natural de las cuevas prehistóricas de Cantabria">
+            <span class="ruta-badge">🎨 Prehistoria UNESCO</span>
+          </div>
+          <div class="ruta-content">
+            <div class="ruta-meta">
+              <span>⏱️ 2 - 3 Días</span>
+              <span>📍 190 km</span>
+            </div>
+            <h3 class="ruta-title">Cuevas Prehistóricas de Cantabria (UNESCO)</h3>
+            <p class="ruta-desc">Viaje a los orígenes del arte rupestre de la humanidad visitando las cuevas
+              paleolíticas más importantes del mundo.</p>
+            <div class="ruta-puntos">
+              <strong>Puntos clave:</strong> Cueva de El Castillo, Las Monedas, Altamira, El Pendo, Covalanas.
+            </div>
+            <div class="ruta-fuente">🔗 Fuente: Rutas por Cantabria</div>
+            <div class="ruta-footer">
+              <button class="btn btn-secundario" onclick="abrirRutaModal('cuevas_prehistoricas')"
+                style="width: 100%;">Ver Itinerario Completo</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RUTA 9: Cantabria Medieval -->
+        <div class="ruta-card" data-categoria="cantabria-interior">
+          <div class="ruta-img-wrapper">
+            <img src="ruta_cantabria_medieval.jpg" alt="Pueblo tradicional de Carmona en Cantabria">
+            <span class="ruta-badge">🏰 Ruta Medieval</span>
+          </div>
+          <div class="ruta-content">
+            <div class="ruta-meta">
+              <span>⏱️ 3 Días</span>
+              <span>📍 230 km</span>
+            </div>
+            <h3 class="ruta-title">Ruta por la Cantabria Medieval</h3>
+            <p class="ruta-desc">Recorre pueblos medievales de piedra, torres de linaje histórico y villas señoriales
+              perfectamente conservadas.</p>
+            <div class="ruta-puntos">
+              <strong>Puntos clave:</strong> Santillana del Mar, Cartes, Bárcena Mayor, Potes, Torre del Infantado.
+            </div>
+            <div class="ruta-fuente">🔗 Fuente: Rutas por Cantabria</div>
+            <div class="ruta-footer">
+              <button class="btn btn-secundario" onclick="abrirRutaModal('cantabria_medieval')" style="width: 100%;">Ver
+                Itinerario Completo</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RUTA 10: Puertos Míticos de la Vuelta -->
+        <div class="ruta-card" data-categoria="liebana-montana">
+          <div class="ruta-img-wrapper">
+            <img src="ruta_puertos_miticos.jpg" alt="Puerto y Portillo de Lunada en Cantabria">
+            <span class="ruta-badge">🏔️ Puertos de Montaña</span>
+          </div>
+          <div class="ruta-content">
+            <div class="ruta-meta">
+              <span>⏱️ 3 Días</span>
+              <span>📍 340 km</span>
+            </div>
+            <h3 class="ruta-title">Puertos Míticos de la Vuelta a España</h3>
+            <p class="ruta-desc">Subidas legendarias para amantes de las carreteras escénicas y el ciclismo con vistas
+              imponentes desde los miradores cántabros.</p>
+            <div class="ruta-puntos">
+              <strong>Puntos clave:</strong> Peña Cabarga, Alisas, Puerto de Palombera, Carmona, Lunada.
+            </div>
+            <div class="ruta-fuente">🔗 Fuente: Rutas por Cantabria</div>
+            <div class="ruta-footer">
+              <button class="btn btn-secundario" onclick="abrirRutaModal('puertos_miticos')" style="width: 100%;">Ver
+                Itinerario Completo</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RUTA 11: Campoo y Palombera -->
+        <div class="ruta-card" data-categoria="cantabria-interior">
+          <div class="ruta-img-wrapper">
+            <img src="ruta_campoo_palombera.jpg" alt="Mirador Balcón de la Cardosa en el Puerto de Palombera">
+            <span class="ruta-badge">🌿 Cantabria Interior</span>
+          </div>
+          <div class="ruta-content">
+            <div class="ruta-meta">
+              <span>⏱️ 2 - 3 Días</span>
+              <span>📍 210 km</span>
+            </div>
+            <h3 class="ruta-title">Ruta por Campoo y Puerto de Palombera</h3>
+            <p class="ruta-desc">Del embalse del Ebro y el nacimiento del gran río hasta el parque natural Saja-Besaya
+              entre bosques atlánticos.</p>
+            <div class="ruta-puntos">
+              <strong>Puntos clave:</strong> Reinosa, Fontibre, Julióbriga, Alto Campoo, Puerto de Palombera.
+            </div>
+            <div class="ruta-fuente">🔗 Fuente: Rutas por Cantabria</div>
+            <div class="ruta-footer">
+              <button class="btn btn-secundario" onclick="abrirRutaModal('campoo_palombera')" style="width: 100%;">Ver
+                Itinerario Completo</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RUTA 12: Cabuérniga -->
+        <div class="ruta-card" data-categoria="cantabria-interior">
+          <div class="ruta-img-wrapper">
+            <img src="ruta_cabuerniga.jpg" alt="Rincón típico de piedra en Bárcena Mayor">
+            <span class="ruta-badge">🌿 Cantabria Interior</span>
+          </div>
+          <div class="ruta-content">
+            <div class="ruta-meta">
+              <span>⏱️ 2 Días</span>
+              <span>📍 160 km</span>
+            </div>
+            <h3 class="ruta-title">Ruta por el Valle de Cabuérniga</h3>
+            <p class="ruta-desc">Siente la autenticidad de los pueblos rústicos de piedra, sus casonas solariegas y
+              degusta el famoso cocido montañés casero.</p>
+            <div class="ruta-puntos">
+              <strong>Puntos clave:</strong> Cabezón de la Sal, Carrejo, Bárcena Mayor, Hayedo de Ucieda.
+            </div>
+            <div class="ruta-fuente">🔗 Fuente: Rutas por Cantabria</div>
+            <div class="ruta-footer">
+              <button class="btn btn-secundario" onclick="abrirRutaModal('cabuerniga')" style="width: 100%;">Ver
+                Itinerario Completo</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RUTA 13: Polaciones y Liébana -->
+        <div class="ruta-card" data-categoria="liebana-montana">
+          <div class="ruta-img-wrapper">
+            <img src="ruta_polaciones_liebana.jpg" alt="Embalse de La Cohilla en Polaciones rumbo a Liébana">
+            <span class="ruta-badge">🏔️ Picos de Europa</span>
+          </div>
+          <div class="ruta-content">
+            <div class="ruta-meta">
+              <span>⏱️ 3 - 4 Días</span>
+              <span>📍 270 km</span>
+            </div>
+            <h3 class="ruta-title">Ruta por Polaciones y Valle de Liébana</h3>
+            <p class="ruta-desc">Ruta impresionante a los pies del macizo central de los Picos de Europa: teleférico de
+              Fuente Dé, monasterio de Liébana y Potes.</p>
+            <div class="ruta-puntos">
+              <strong>Puntos clave:</strong> Puerto de Piedrasluengas, Potes, Santo Toribio, Fuente Dé, Mogrovejo.
+            </div>
+            <div class="ruta-fuente">🔗 Fuente: Rutas por Cantabria</div>
+            <div class="ruta-footer">
+              <button class="btn btn-secundario" onclick="abrirRutaModal('polaciones_liebana')" style="width: 100%;">Ver
+                Itinerario Completo</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RUTA 14: Arte Románico -->
+        <div class="ruta-card" data-categoria="cantabria-interior">
+          <div class="ruta-img-wrapper">
+            <img src="ruta_arte_romanico.jpg" alt="Iglesia rupestre de Arroyuelos en Valderredible">
+            <span class="ruta-badge">🏰 Arte Románico</span>
+          </div>
+          <div class="ruta-content">
+            <div class="ruta-meta">
+              <span>⏱️ 2 Días</span>
+              <span>📍 190 km</span>
+            </div>
+            <h3 class="ruta-title">Arte Románico en Campoo y Valderredible</h3>
+            <p class="ruta-desc">Tesoros arquitectónicos mozárabes y colegiatas medievales, incluyendo iglesias
+              rupestres esculpidas directamente en la roca.</p>
+            <div class="ruta-puntos">
+              <strong>Puntos clave:</strong> Colegiata de Cervatos, San Martín de Elines, Iglesia Rupestre de Valverde.
+            </div>
+            <div class="ruta-fuente">🔗 Fuente: Rutas por Cantabria</div>
+            <div class="ruta-footer">
+              <button class="btn btn-secundario" onclick="abrirRutaModal('arte_romanico')" style="width: 100%;">Ver
+                Itinerario Completo</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RUTA 15: Soba y Asón -->
+        <div class="ruta-card" data-categoria="cantabria-interior">
+          <div class="ruta-img-wrapper">
+            <img src="ruta_soba_ason.jpg" alt="Cascadas y gargantas de los valles de Soba y el Río Asón">
+            <span class="ruta-badge">🌿 Cantabria Interior</span>
+          </div>
+          <div class="ruta-content">
+            <div class="ruta-meta">
+              <span>⏱️ 2 Días</span>
+              <span>📍 170 km</span>
+            </div>
+            <h3 class="ruta-title">Ruta por Soba y Nacimiento del Asón</h3>
+            <p class="ruta-desc">Miradores colgados sobre el vacío, la cascada del salto del Asón de más de 70m y el
+              exuberante valle alto del río Gándara.</p>
+            <div class="ruta-puntos">
+              <strong>Puntos clave:</strong> Salto del Asón, Nacimiento del Gándara, La Gándara, Puerto de Alisas.
+            </div>
+            <div class="ruta-fuente">🔗 Fuente: Rutas por Cantabria</div>
+            <div class="ruta-footer">
+              <button class="btn btn-secundario" onclick="abrirRutaModal('soba_ason')" style="width: 100%;">Ver
+                Itinerario Completo</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RUTA 16: Playa y Montaña -->
+        <div class="ruta-card" data-categoria="cantabria-costa">
+          <div class="ruta-img-wrapper">
+            <img src="ruta_playa_montana.jpg" alt="San Vicente de la Barquera y costa cantábrica">
+            <span class="ruta-badge">🌊 Playa & Montaña</span>
+          </div>
+          <div class="ruta-content">
+            <div class="ruta-meta">
+              <span>⏱️ 1 - 2 Días</span>
+              <span>📍 140 km</span>
+            </div>
+            <h3 class="ruta-title">Un Día de Playa y Montaña en Cantabria</h3>
+            <p class="ruta-desc">Experimenta el contraste único de Cantabria: surfea o pasea por las dunas por la mañana
+              y cena en un valle de montaña al atardecer.</p>
+            <div class="ruta-puntos">
+              <strong>Puntos clave:</strong> Dunas de Liencres, Costa Quebrada, Liérganes, Puerto de Palombera.
+            </div>
+            <div class="ruta-fuente">🔗 Fuente: Rutas por Cantabria</div>
+            <div class="ruta-footer">
+              <button class="btn btn-secundario" onclick="abrirRutaModal('playa_montana')" style="width: 100%;">Ver
+                Itinerario Completo</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RUTA 17: Montignac y Valle del Vézère (Francia) -->
+        <div class="ruta-card" data-categoria="francia">
+          <div class="ruta-img-wrapper">
+            <img src="ruta_montignac_vezere.jpg" alt="Saint-Léon-sur-Vézère en la Dordoña francesa">
+            <span class="ruta-badge">🇫🇷 Ruta Internacional</span>
+          </div>
+          <div class="ruta-content">
+            <div class="ruta-meta">
+              <span>⏱️ 4 - 5 Días</span>
+              <span>📍 520 km</span>
+            </div>
+            <h3 class="ruta-title">Ruta por Montignac y el Valle del Vézère (Francia)</h3>
+            <p class="ruta-desc">Viaje internacional desde Vitoria al sudoeste francés: las célebres Cuevas de Lascaux,
+              fortalezas feudales y villas medievales de la Dordoña.</p>
+            <div class="ruta-puntos">
+              <strong>Puntos clave:</strong> Montignac-Lascaux, Les Eyzies, Castillo de Commarque, Sarlat-la-Canéda.
+            </div>
+            <div class="ruta-fuente">🔗 Fuente: France.fr</div>
+            <div class="ruta-footer">
+              <button class="btn btn-secundario" onclick="abrirRutaModal('montignac_vezere')" style="width: 100%;">Ver
+                Itinerario Completo</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 4: UBICACIÓN Y CONTACTO VITORIA-GASTEIZ -->
+  <section id="contacto">
+    <div class="contenedor">
+      <div class="section-header">
+        <span class="section-badge">Sede & Punto de Recogida</span>
+        <h2>Contacto y Ubicación de Camper Élite</h2>
+        <p class="section-desc">Punto de entrega y devolución de todos nuestros vehículos de alquiler en
+          Vitoria-Gasteiz.</p>
+      </div>
+
+      <div class="contacto-grid">
+        <div class="contacto-info">
+          <h3>Camper Élite Vitoria</h3>
+          <p>Tu sede principal de alquiler de campers y autocaravanas para el País Vasco, Cantabria, Burgos y Francia.
+          </p>
+
+          <div class="info-item">
+            <div class="info-icon">📍</div>
+            <div class="info-text">
+              <strong>Dirección de Recogida y Contacto:</strong>
+              <p>Calle Obispo Ballester kalea, 14, 01002 Vitoria-Gasteiz, Araba</p>
+              <p style="margin-top: 0.2rem; opacity: 0.8; font-size: 0.82rem;">Plus Code Google Maps: V84P+8R
+                Vitoria-Gasteiz</p>
+              <a href="https://www.google.com/maps/search/?api=1&query=Calle+Obispo+Ballester+kalea+14+01002+Vitoria-Gasteiz"
+                target="_blank" rel="noopener noreferrer" class="maps-btn">
+                Abrir en Google Maps 🗺️
+              </a>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">✉️</div>
+            <div class="info-text">
+              <strong>Correo Electrónico</strong>
+              <p>info@camperelite.com</p>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">📞</div>
+            <div class="info-text">
+              <strong>Teléfono & WhatsApp</strong>
+              <p>+34 600 000 000 (Atención al cliente 24/7)</p>
+            </div>
+          </div>
+        </div>
+
+        <form>
+          <div class="campo">
+            <label for="nombre">Nombre completo</label>
+            <input type="text" id="nombre" placeholder="Ej: Jon Hernández" required>
+          </div>
+          <div class="campo">
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" placeholder="tucorreo@ejemplo.com" required>
+          </div>
+          <div class="campo">
+            <label for="mensaje">¿En qué te podemos ayudar?</label>
+            <textarea id="mensaje"
+              placeholder="Indícanos la fecha de viaje o las dudas que tengas sobre la recogida en Vitoria..."
+              required></textarea>
+          </div>
+          <button class="btn btn-primario" type="submit" style="width: 100%;">Enviar Consulta 📩</button>
+        </form>
+      </div>
+
+      <!-- MAPA GOOGLE EMBED -->
+      <div class="mapa-contenedor">
+        <div class="mapa-header">
+          <h4>📍 Mapa de Ubicación – Calle Obispo Ballester 14, Vitoria-Gasteiz</h4>
+          <a href="https://www.google.com/maps/search/?api=1&query=Calle+Obispo+Ballester+kalea+14+01002+Vitoria-Gasteiz"
+            target="_blank" rel="noopener noreferrer"
+            style="color: #1565C0; font-weight: 700; font-size: 0.88rem; text-decoration: none;">Ver mapa interactivo
+            completo ↗</a>
+        </div>
+        <iframe title="Mapa de ubicación de Camper Élite en Vitoria-Gasteiz"
+          src="https://maps.google.com/maps?q=Calle%20Obispo%20Ballester%20kalea%2C%2014%2C%2001002%20Vitoria-Gasteiz&t=&z=15&ie=UTF8&iwloc=&output=embed"
+          width="100%" height="320" style="border:0;" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
       </div>
 
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="como">
-  <div class="contenedor">
-    <h2>Cómo funciona</h2>
-    <p class="section-desc">Reservar tu camper o autocaravana es muy sencillo.</p>
-
-    <div class="pasos">
-      <div class="paso">
-        <h3>1. Elige tu vehículo</h3>
-        <p>Selecciona la camper o autocaravana que mejor se adapte a tu viaje.</p>
+  <!-- FOOTER -->
+  <footer>
+    <div class="contenedor">
+      <div class="footer-content">
+        <a href="#" class="logo">Camper<span>Élite</span></a>
+        <p>Alquiler de campers y autocaravanas en Vitoria-Gasteiz (Calle Obispo Ballester 14). Rutas por Las Merindades,
+          Cantabria y Francia.</p>
       </div>
-      <div class="paso">
-        <h3>2. Reserva en Yescapa o IndieCampers</h3>
-        <p>Accede a la plataforma y confirma tus fechas de viaje.</p>
-      </div>
-      <div class="paso">
-        <h3>3. Recoge el vehículo</h3>
-        <p>Te explicamos todo el funcionamiento y equipamiento antes de salir.</p>
-      </div>
-      <div class="paso">
-        <h3>4. Disfruta la ruta</h3>
-        <p>Viaja con libertad total y asistencia incluida.</p>
+      <div class="footer-bottom">
+        © <span id="year"></span> Camper Élite · Calle Obispo Ballester kalea 14, Vitoria-Gasteiz · Todos los derechos
+        reservados.
       </div>
     </div>
+  </footer>
+
+  <!-- MODAL DE DETALLE DE RUTA -->
+  <div id="rutaModal" class="modal" role="dialog" aria-modal="true">
+    <div class="modal-content">
+      <button class="modal-close" onclick="cerrarModal()" aria-label="Cerrar ventana modal">✕</button>
+      <div id="modalBody"></div>
+    </div>
   </div>
-</section>
 
-<section id="contacto">
-  <div class="contenedor">
-    <h2>Contacto</h2>
-    <p class="section-desc">Si tienes dudas, escríbenos y te ayudamos.</p>
-
-    <form>
-      <div class="campo">
-        <label>Nombre</label>
-        <input type="text" placeholder="Tu nombre">
-      </div>
-      <div class="campo">
-        <label>Email</label>
-        <input type="email" placeholder="tucorreo@ejemplo.com">
-      </div>
-      <div class="campo">
-        <label>Mensaje</label>
-        <textarea placeholder="Tu consulta..."></textarea>
-      </div>
-      <button class="btn btn-primario" type="submit">Enviar</button>
-    </form>
-  </div>
-</section>
-
-<footer>
-  © <span id="year"></span> RutaCamper · Alquiler de campers y autocaravanas
-</footer>
-
-<script>
-document.getElementById("year").textContent = new Date().getFullYear();
-
-function toggleMenu() {
-  const menu = document.getElementById("menu");
-  menu.style.display = menu.style.display === "flex" ? "none" : "flex";
-}
-
-function galeria(id, index) {
-  const gal = document.getElementById(id);
-  const imgs = gal.querySelectorAll("img");
-  imgs.forEach(img => img.classList.remove("active"));
-  imgs[index].classList.add("active");
-}
-</script>
-
+  <script src="main.js"></script>
 </body>
+
 </html>

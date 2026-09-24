@@ -1,0 +1,1022 @@
+/* ==========================================================================
+   CAMPER ÉLITE - ESTILOS PRINCIPALES (styles.css)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Paleta de Colores de Alta Calidad */
+  --azul-principal: #1565C0;
+  --azul-oscuro: #0D47A1;
+  --azul-suave: #E3F2FD;
+  --verde-acento: #2E7D32;
+  --verde-hover: #1B5E20;
+  --naranja-acento: #F57C00;
+  --naranja-hover: #E65100;
+
+  /* Neutros */
+  --blanco: #FFFFFF;
+  --fondo: #F8FAFC;
+  --tarjeta-bg: #FFFFFF;
+  --texto-principal: #0F172A;
+  --texto-secundario: #475569;
+  --texto-mutado: #64748B;
+  --gris-borde: #E2E8F0;
+  --gris-subtil: #F1F5F9;
+
+  /* Sombras y Efectos */
+  --sombra-sm: 0 2px 4px rgba(15, 23, 42, 0.04);
+  --sombra-md: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+  --sombra-lg: 0 20px 30px -10px rgba(15, 23, 42, 0.12), 0 10px 15px -5px rgba(15, 23, 42, 0.06);
+  --transicion: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --radio-card: 16px;
+  --radio-btn: 10px;
+
+  --max-width: 1240px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--fondo);
+  color: var(--texto-principal);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  color: var(--texto-principal);
+  line-height: 1.25;
+}
+
+.contenedor {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ==========================================================================
+   HEADER Y NAVEGACIÓN
+   ========================================================================== */
+header {
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--gris-borde);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: var(--transicion);
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9rem 0;
+}
+
+.logo {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+  font-weight: 800;
+  color: var(--azul-principal);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  letter-spacing: -0.5px;
+}
+
+.logo span {
+  color: var(--naranja-acento);
+}
+
+.logo-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: var(--azul-suave);
+  color: var(--azul-principal);
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--texto-secundario);
+  font-weight: 600;
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: var(--transicion);
+}
+
+nav a:hover, nav a.active {
+  color: var(--azul-principal);
+  background: var(--azul-suave);
+}
+
+.menu-btn {
+  display: none;
+  font-size: 1.6rem;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  color: var(--texto-principal);
+  padding: 0.4rem;
+}
+
+/* ==========================================================================
+   BOTONES
+   ========================================================================== */
+.btn {
+  padding: 0.75rem 1.4rem;
+  border-radius: var(--radio-btn);
+  text-decoration: none;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+  transition: var(--transicion);
+  box-shadow: var(--sombra-sm);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-md);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primario {
+  background: var(--verde-acento);
+  color: var(--blanco);
+}
+
+.btn-primario:hover {
+  background: var(--verde-hover);
+}
+
+.btn-secundario {
+  background: var(--blanco);
+  border: 2px solid var(--azul-principal);
+  color: var(--azul-principal);
+}
+
+.btn-secundario:hover {
+  background: var(--azul-principal);
+  color: var(--blanco);
+}
+
+.btn-naranja {
+  background: var(--naranja-acento);
+  color: var(--blanco);
+}
+
+.btn-naranja:hover {
+  background: var(--naranja-hover);
+}
+
+/* ==========================================================================
+   HERO BANNER
+   ========================================================================== */
+.hero {
+  background: linear-gradient(135deg, #0d3b66 0%, #1565C0 50%, #1b5e20 100%);
+  color: var(--blanco);
+  padding: 4.5rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.12) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.hero-location-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(8px);
+  padding: 0.4rem 1.1rem;
+  border-radius: 30px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.hero h1 {
+  color: var(--blanco);
+  font-size: clamp(2.1rem, 4.5vw, 3.2rem);
+  letter-spacing: -1px;
+  margin-bottom: 1.2rem;
+}
+
+.hero p {
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  opacity: 0.92;
+  margin-bottom: 2rem;
+  max-width: 600px;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.stat-item h3 {
+  font-size: 1.7rem;
+  color: var(--blanco);
+}
+
+.stat-item p {
+  font-size: 0.85rem;
+  opacity: 0.85;
+  margin-bottom: 0;
+}
+
+/* ==========================================================================
+   SECCIONES Y TITULARES
+   ========================================================================== */
+section {
+  padding: 4.5rem 0;
+}
+
+.section-header {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 3rem auto;
+}
+
+.section-badge {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--azul-principal);
+  background: var(--azul-suave);
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  margin-bottom: 0.8rem;
+}
+
+section h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+  letter-spacing: -0.5px;
+  margin-bottom: 0.8rem;
+}
+
+.section-desc {
+  font-size: 1.05rem;
+  color: var(--texto-secundario);
+}
+
+/* GRID GLOBAL */
+.grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.grid-3 {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+/* ==========================================================================
+   TARJETAS DE VEHÍCULOS (FLOTA)
+   ========================================================================== */
+.card {
+  background: var(--tarjeta-bg);
+  border-radius: var(--radio-card);
+  border: 1px solid var(--gris-borde);
+  box-shadow: var(--sombra-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transicion);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--sombra-lg);
+}
+
+.card-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+/* GALERÍA DE IMÁGENES */
+.gallery-container {
+  position: relative;
+}
+
+.gallery {
+  position: relative;
+  overflow: hidden;
+  height: 230px;
+  background-color: var(--gris-subtil);
+}
+
+.gallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+  transition: opacity 0.4s ease;
+}
+
+.gallery img.active {
+  display: block;
+}
+
+.gallery-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem;
+  background: var(--blanco);
+  border-bottom: 1px solid var(--gris-borde);
+}
+
+.gallery-buttons button {
+  background: var(--gris-subtil);
+  color: var(--texto-secundario);
+  border: 1px solid var(--gris-borde);
+  padding: 0.35rem 0.8rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: var(--transicion);
+}
+
+.gallery-buttons button:hover {
+  background: var(--azul-suave);
+  color: var(--azul-principal);
+}
+
+.gallery-buttons button.active {
+  background: var(--azul-principal);
+  color: var(--blanco);
+  border-color: var(--azul-principal);
+  box-shadow: 0 2px 6px rgba(21, 101, 192, 0.3);
+}
+
+.card h3 {
+  font-size: 1.35rem;
+  margin-bottom: 0.3rem;
+}
+
+.card-sub {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--azul-principal);
+  margin-bottom: 1rem;
+}
+
+.equipamiento {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+}
+
+.equip-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--gris-subtil);
+  border: 1px solid var(--gris-borde);
+  padding: 0.3rem 0.65rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: var(--texto-secundario);
+  font-weight: 500;
+}
+
+.card-precio {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--verde-acento);
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--gris-borde);
+}
+
+.reserva-titulo {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.reserva-titulo h4 {
+  font-size: 0.95rem;
+  color: var(--texto-principal);
+  margin-bottom: 0.2rem;
+}
+
+.reserva-titulo p {
+  font-size: 0.85rem;
+  color: var(--texto-mutado);
+}
+
+.reserva-logos {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+.reserva-logos a {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background: var(--blanco);
+  border: 1.5px solid var(--gris-borde);
+  padding: 0.55rem 0.6rem;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--texto-principal);
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: var(--transicion);
+}
+
+.reserva-logos a:hover {
+  border-color: var(--azul-principal);
+  background: var(--azul-suave);
+  color: var(--azul-principal);
+}
+
+.reserva-logos img {
+  height: 18px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* ==========================================================================
+   SECCIÓN DE RUTAS (17 RUTAS RECOMENDADAS)
+   ========================================================================== */
+#rutas {
+  background: var(--blanco);
+  border-top: 1px solid var(--gris-borde);
+  border-bottom: 1px solid var(--gris-borde);
+}
+
+.rutas-count-badge {
+  background: var(--naranja-acento);
+  color: var(--blanco);
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-left: 0.4rem;
+}
+
+.rutas-filtros {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 2.5rem;
+}
+
+.filtro-btn {
+  background: var(--gris-subtil);
+  border: 1px solid var(--gris-borde);
+  color: var(--texto-secundario);
+  padding: 0.55rem 1.2rem;
+  border-radius: 30px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: var(--transicion);
+}
+
+.filtro-btn:hover, .filtro-btn.active {
+  background: var(--azul-principal);
+  color: var(--blanco);
+  border-color: var(--azul-principal);
+  box-shadow: 0 4px 12px rgba(21, 101, 192, 0.25);
+}
+
+.ruta-card {
+  background: var(--blanco);
+  border-radius: var(--radio-card);
+  border: 1px solid var(--gris-borde);
+  box-shadow: var(--sombra-md);
+  overflow: hidden;
+  transition: var(--transicion);
+  display: flex;
+  flex-direction: column;
+}
+
+.ruta-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--sombra-lg);
+}
+
+.ruta-img-wrapper {
+  position: relative;
+  height: 210px;
+  overflow: hidden;
+  background-color: #0f172a;
+}
+
+.ruta-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.ruta-card:hover .ruta-img-wrapper img {
+  transform: scale(1.06);
+}
+
+.ruta-badge {
+  position: absolute;
+  top: 0.9rem;
+  left: 0.9rem;
+  background: rgba(15, 23, 42, 0.82);
+  backdrop-filter: blur(6px);
+  color: var(--blanco);
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.ruta-content {
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.ruta-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--naranja-acento);
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+}
+
+.ruta-title {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: var(--texto-principal);
+}
+
+.ruta-desc {
+  font-size: 0.9rem;
+  color: var(--texto-secundario);
+  margin-bottom: 1.1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ruta-puntos {
+  background: var(--gris-subtil);
+  padding: 0.75rem 0.9rem;
+  border-radius: 10px;
+  font-size: 0.83rem;
+  color: var(--texto-principal);
+  margin-bottom: 1.2rem;
+}
+
+.ruta-puntos strong {
+  display: block;
+  color: var(--azul-principal);
+  margin-bottom: 0.2rem;
+}
+
+.ruta-fuente {
+  font-size: 0.78rem;
+  color: var(--texto-mutado);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.ruta-footer {
+  margin-top: auto;
+}
+
+/* ==========================================================================
+   CÓMO FUNCIONA
+   ========================================================================== */
+.pasos {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.paso {
+  background: var(--blanco);
+  padding: 1.8rem;
+  border-radius: var(--radio-card);
+  border: 1px solid var(--gris-borde);
+  box-shadow: var(--sombra-sm);
+  transition: var(--transicion);
+}
+
+.paso:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra-md);
+  border-color: var(--verde-acento);
+}
+
+.paso-numero {
+  width: 44px;
+  height: 44px;
+  background: var(--verde-acento);
+  color: var(--blanco);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.paso h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.paso p {
+  font-size: 0.95rem;
+  color: var(--texto-secundario);
+}
+
+/* ==========================================================================
+   UBICACIÓN Y CONTACTO DE VITORIA-GASTEIZ
+   ========================================================================== */
+.contacto-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.contacto-info {
+  background: linear-gradient(145deg, #0d47a1 0%, #1565c0 100%);
+  color: var(--blanco);
+  padding: 2.2rem;
+  border-radius: var(--radio-card);
+  box-shadow: var(--sombra-md);
+}
+
+.contacto-info h3 {
+  color: var(--blanco);
+  font-size: 1.6rem;
+  margin-bottom: 0.8rem;
+}
+
+.contacto-info p {
+  opacity: 0.92;
+  margin-bottom: 1.8rem;
+  font-size: 0.95rem;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.4rem;
+}
+
+.info-icon {
+  font-size: 1.3rem;
+  background: rgba(255, 255, 255, 0.18);
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.info-text strong {
+  display: block;
+  font-size: 0.95rem;
+  margin-bottom: 0.2rem;
+}
+
+.info-text p {
+  font-size: 0.9rem;
+  opacity: 0.88;
+  margin-bottom: 0;
+  line-height: 1.4;
+}
+
+.maps-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--naranja-acento);
+  color: var(--blanco);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-top: 0.5rem;
+  transition: var(--transicion);
+}
+
+.maps-btn:hover {
+  background: var(--naranja-hover);
+}
+
+form {
+  background: var(--blanco);
+  padding: 2.2rem;
+  border-radius: var(--radio-card);
+  border: 1px solid var(--gris-borde);
+  box-shadow: var(--sombra-md);
+}
+
+.campo {
+  margin-bottom: 1.2rem;
+}
+
+.campo label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.campo input,
+.campo textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--gris-borde);
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: var(--transicion);
+  background-color: var(--gris-subtil);
+}
+
+.campo input:focus,
+.campo textarea:focus {
+  outline: none;
+  border-color: var(--azul-principal);
+  background-color: var(--blanco);
+  box-shadow: 0 0 0 4px rgba(21, 101, 192, 0.1);
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* MAPA INTEGRADO */
+.mapa-contenedor {
+  margin-top: 2.5rem;
+  border-radius: var(--radio-card);
+  overflow: hidden;
+  border: 1px solid var(--gris-borde);
+  box-shadow: var(--sombra-md);
+  background: var(--blanco);
+}
+
+.mapa-header {
+  padding: 1rem 1.5rem;
+  background: var(--gris-subtil);
+  border-bottom: 1px solid var(--gris-borde);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.mapa-header h4 {
+  font-size: 1rem;
+  color: var(--azul-principal);
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+footer {
+  background: var(--blanco);
+  border-top: 1px solid var(--gris-borde);
+  padding: 2.5rem 0 1.5rem 0;
+  color: var(--texto-secundario);
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--gris-borde);
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--texto-mutado);
+}
+
+/* ==========================================================================
+   MODAL ITINERARIO DE RUTA
+   ========================================================================== */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal.is-open {
+  display: flex;
+  opacity: 1;
+}
+
+.modal-content {
+  background: var(--blanco);
+  border-radius: 20px;
+  max-width: 720px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 2.2rem;
+  position: relative;
+  box-shadow: var(--sombra-lg);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-close {
+  position: absolute;
+  top: 1.2rem; right: 1.2rem;
+  background: var(--gris-subtil);
+  border: none;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transicion);
+}
+
+.modal-close:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (MEDIA QUERIES)
+   ========================================================================== */
+@media (max-width: 900px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .hero p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .contacto-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  nav ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--blanco);
+    flex-direction: column;
+    padding: 1.5rem;
+    gap: 1rem;
+    border-bottom: 1px solid var(--gris-borde);
+    box-shadow: var(--sombra-md);
+  }
+
+  nav ul.is-open {
+    display: flex;
+  }
+
+  .menu-btn {
+    display: block;
+  }
+
+  header .btn-primario {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn {
+    width: 100%;
+  }
+
+  .hero-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .reserva-logos {
+    flex-direction: column;
+  }
+
+  .rutas-filtros {
+    flex-direction: column;
+  }
+}
