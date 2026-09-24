@@ -255,7 +255,7 @@
     </div>
   </section>
 
-  <!-- SECCIÓN 3: RUTAS (CON FOTOS REPRESENTATIVAS OFICIALES DE CADA ARTÍCULO) -->
+  <!-- SECCIÓN 3: RUTAS -->
   <section id="rutas">
     <div class="contenedor">
       <div class="section-header">
@@ -742,7 +742,7 @@
             <div class="info-icon">✉️</div>
             <div class="info-text">
               <strong>Correo Electrónico</strong>
-              <p>info@camperelite.com</p>
+              <p><a href="mailto:info@camperelite.es" style="color: inherit; text-decoration: none;">info@camperelite.es</a></p>
             </div>
           </div>
 
@@ -755,22 +755,22 @@
           </div>
         </div>
 
-        <form>
+        <form id="contactForm">
           <div class="campo">
             <label for="nombre">Nombre completo</label>
-            <input type="text" id="nombre" placeholder="Ej: Jon Hernández" required>
+            <input type="text" id="nombre" name="nombre" placeholder="Ej: Jon Hernández" required>
           </div>
           <div class="campo">
             <label for="email">Correo electrónico</label>
-            <input type="email" id="email" placeholder="tucorreo@ejemplo.com" required>
+            <input type="email" id="email" name="email" placeholder="tucorreo@ejemplo.com" required>
           </div>
           <div class="campo">
             <label for="mensaje">¿En qué te podemos ayudar?</label>
-            <textarea id="mensaje"
+            <textarea id="mensaje" name="mensaje"
               placeholder="Indícanos la fecha de viaje o las dudas que tengas sobre la recogida en Vitoria..."
               required></textarea>
           </div>
-          <button class="btn btn-primario" type="submit" style="width: 100%;">Enviar Consulta 📩</button>
+          <button id="btnEnviarForm" class="btn btn-primario" type="submit" style="width: 100%;">Enviar Consulta 📩</button>
         </form>
       </div>
 
@@ -802,7 +802,7 @@
           Cantabria y Francia.</p>
       </div>
       <div class="footer-bottom">
-        © <span id="year"></span> Camper Élite · Calle Obispo Ballester kalea 14, Vitoria-Gasteiz · Todos los derechos
+        © <span id="year"></span> Camper Élite · Calle Obispo Ballester kalea 14, Vitoria-Gasteiz · info@camperelite.es · Todos los derechos
         reservados.
       </div>
     </div>
@@ -813,6 +813,19 @@
     <div class="modal-content">
       <button class="modal-close" onclick="cerrarModal()" aria-label="Cerrar ventana modal">✕</button>
       <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- MODAL DE CONFIRMACIÓN DE ENVIÓ DE FORMULARIO -->
+  <div id="confirmacionModal" class="modal" role="dialog" aria-modal="true">
+    <div class="modal-content" style="max-width: 540px; text-align: center;">
+      <button class="modal-close" onclick="cerrarConfirmacionModal()" aria-label="Cerrar">✕</button>
+      <div style="font-size: 3rem; margin-bottom: 0.5rem;">📩</div>
+      <h3 style="font-size: 1.6rem; color: #1565C0; margin-bottom: 0.8rem;">¡Consulta Enviada con Éxito!</h3>
+      <p style="color: #475569; font-size: 0.98rem; margin-bottom: 1.2rem; line-height: 1.6;" id="confirmacionTexto">
+        Hemos registrado tu mensaje y enviado la notificación correspondiente.
+      </p>
+      <button class="btn btn-primario" onclick="cerrarConfirmacionModal()" style="width: 100%;">Entendido 👍</button>
     </div>
   </div>
 

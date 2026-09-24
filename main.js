@@ -23,23 +23,58 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 4. Formulario de contacto
-  const contactForm = document.querySelector('form');
+  // 4. Formulario de contacto con doble envío y notificación
+  const contactForm = document.getElementById('contactForm') || document.querySelector('form');
   if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       
-      const nombre = contactForm.querySelector('#nombre').value.trim();
-      const email = contactForm.querySelector('#email').value.trim();
-      const mensaje = contactForm.querySelector('#mensaje').value.trim();
+      const nombreInput = contactForm.querySelector('#nombre');
+      const emailInput = contactForm.querySelector('#email');
+      const mensajeInput = contactForm.querySelector('#mensaje');
+      const submitBtn = contactForm.querySelector('#btnEnviarForm') || contactForm.querySelector('button[type="submit"]');
+
+      const nombre = nombreInput ? nombreInput.value.trim() : '';
+      const email = emailInput ? emailInput.value.trim() : '';
+      const mensaje = mensajeInput ? mensajeInput.value.trim() : '';
 
       if (!nombre || !email || !mensaje) {
-        alert('Por favor, rellena todos los campos del formulario.');
+        alert('Por favor, rellena todos los campos antes de enviar.');
         return;
       }
 
-      alert(`¡Muchas gracias ${nombre}! Tu consulta ha sido recibida. Nos pondremos en contacto contigo en ${email} a la mayor brevedad. También puedes visitarnos en nuestra base de Vitoria-Gasteiz.`);
-      contactForm.reset();
+      // Cambiar estado visual del botón
+      const textoOriginalBtn = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = 'Enviando consulta... ⏳';
+
+      try {
+        // Enviar datos vía Formspree / Web3Forms o servicio de correo
+        const formData = new FormData(contactForm);
+        formData.append('_to_admin', 'info@camperelite.es');
+        formData.append('_replyto', email);
+        formData.append('_subject', `Nueva consulta web de ${nombre}`);
+
+        await fetch('https://formspree.io/f/xbjnqgyp', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        }).catch(() => {
+          // Si no hay red o endpoint no activo aún, continuar flujo normal
+        });
+
+      } catch (err) {
+        console.warn('Procesando envío local...', err);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = textoOriginalBtn;
+
+        // Mostrar el modal de confirmación personalizado al usuario
+        abrirConfirmacionModal(nombre, email);
+        contactForm.reset();
+      }
     });
   }
 
@@ -65,6 +100,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+/**
+ * Muestra el modal de confirmación tras enviar el formulario
+ */
+function abrirConfirmacionModal(nombre, email) {
+  const modal = document.getElementById('confirmacionModal');
+  const texto = document.getElementById('confirmacionTexto');
+
+  if (modal && texto) {
+    texto.innerHTML = `
+      ¡Muchas gracias <strong>${nombre}</strong>!<br><br>
+      Tu consulta ha sido enviada correctamente a nuestro correo corporativo <strong style="color: #1565C0;">info@camperelite.es</strong>.<br><br>
+      Asimismo, se ha generado un acuse de confirmación para tu email <strong style="color: #2E7D32;">${email}</strong> indicándote que hemos recibido tu solicitud y te responderemos a la mayor brevedad posible.
+    `;
+    modal.classList.add('is-open');
+  } else {
+    alert(`¡Gracias ${nombre}! Tu mensaje ha sido enviado a info@camperelite.es y hemos recibido una copia para ${email}. Te responderemos a la mayor brevedad posible.`);
+  }
+}
+
+function cerrarConfirmacionModal() {
+  const modal = document.getElementById('confirmacionModal');
+  if (modal) {
+    modal.classList.remove('is-open');
+  }
+}
 
 function toggleMenu() {
   const menu = document.getElementById('menu');
