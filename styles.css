@@ -35,7 +35,9 @@
   --max-width: 1240px;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -54,7 +56,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: 'Outfit', sans-serif;
   font-weight: 700;
   color: var(--texto-principal);
@@ -132,7 +139,8 @@ nav a {
   transition: var(--transicion);
 }
 
-nav a:hover, nav a.active {
+nav a:hover,
+nav a.active {
   color: var(--azul-principal);
   background: var(--azul-suave);
 }
@@ -219,7 +227,10 @@ nav a:hover, nav a.active {
 .hero::before {
   content: '';
   position: absolute;
-  top: 0; right: 0; bottom: 0; left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   background: radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.12) 0%, transparent 50%);
   pointer-events: none;
 }
@@ -487,7 +498,7 @@ section h2 {
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  background: var(--blanco);
+  background: #58b9ca;
   border: 1.5px solid var(--gris-borde);
   padding: 0.55rem 0.6rem;
   border-radius: 10px;
@@ -550,7 +561,8 @@ section h2 {
   transition: var(--transicion);
 }
 
-.filtro-btn:hover, .filtro-btn.active {
+.filtro-btn:hover,
+.filtro-btn.active {
   background: var(--azul-principal);
   color: var(--blanco);
   border-color: var(--azul-principal);
@@ -898,7 +910,10 @@ footer {
 .modal {
   display: none;
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: rgba(15, 23, 42, 0.7);
   backdrop-filter: blur(5px);
   z-index: 1000;
@@ -928,16 +943,25 @@ footer {
 }
 
 @keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .modal-close {
   position: absolute;
-  top: 1.2rem; right: 1.2rem;
+  top: 1.2rem;
+  right: 1.2rem;
   background: var(--gris-subtil);
   border: none;
-  width: 36px; height: 36px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   font-size: 1.2rem;
   cursor: pointer;
