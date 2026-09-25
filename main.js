@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 4. Formulario de contacto con doble envío y notificación
+  // 4. Formulario de contacto con envío directo a WhatsApp (639170613) y backend
   const contactForm = document.getElementById('contactForm') || document.querySelector('form');
   if (contactForm) {
     contactForm.addEventListener('submit', async (e) => {
@@ -46,27 +46,34 @@ document.addEventListener('DOMContentLoaded', () => {
       // Cambiar estado visual del botón
       const textoOriginalBtn = submitBtn.innerHTML;
       submitBtn.disabled = true;
-      submitBtn.innerHTML = 'Enviando consulta... ⏳';
+      submitBtn.innerHTML = 'Abriendo WhatsApp... 📲';
 
       try {
-        // Enviar datos vía Formspree / Web3Forms o servicio de correo
-        const formData = new FormData(contactForm);
-        formData.append('_to_admin', 'info@camperelite.es');
-        formData.append('_replyto', email);
-        formData.append('_subject', `Nueva consulta web de ${nombre}`);
+        // 1. Generar enlace automático con mensaje pre-redactado para WhatsApp (+34 639 17 06 13)
+        const telefonoWhatsApp = '34639170613';
+        const textoMensaje = `¡Hola Camper Élite! 🚐\n\n` +
+          `Me contacto desde la página web:\n` +
+          `👤 *Nombre:* ${nombre}\n` +
+          `✉️ *Email:* ${email}\n\n` +
+          `📝 *Consulta:* ${mensaje}`;
+        
+        const whatsappURL = `https://wa.me/${telefonoWhatsApp}?text=${encodeURIComponent(textoMensaje)}`;
 
-        await fetch('https://formspree.io/f/xbjnqgyp', {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'Accept': 'application/json'
-          }
-        }).catch(() => {
-          // Si no hay red o endpoint no activo aún, continuar flujo normal
-        });
+        // 2. Abrir WhatsApp en una nueva pestaña
+        window.open(whatsappURL, '_blank');
+
+        // 3. Intento opcional de registro en backend local si está activo
+        try {
+          const payload = { nombre, email, mensaje };
+          fetch('http://localhost:8000/api/contacto', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          }).catch(() => {});
+        } catch (err) {}
 
       } catch (err) {
-        console.warn('Procesando envío local...', err);
+        console.warn('Error al preparar mensaje de WhatsApp:', err);
       } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = textoOriginalBtn;
@@ -111,12 +118,12 @@ function abrirConfirmacionModal(nombre, email) {
   if (modal && texto) {
     texto.innerHTML = `
       ¡Muchas gracias <strong>${nombre}</strong>!<br><br>
-      Tu consulta ha sido enviada correctamente a nuestro correo corporativo <strong style="color: #1565C0;">info@camperelite.es</strong>.<br><br>
-      Asimismo, se ha generado un acuse de confirmación para tu email <strong style="color: #2E7D32;">${email}</strong> indicándote que hemos recibido tu solicitud y te responderemos a la mayor brevedad posible.
+      Se ha abierto tu aplicación de WhatsApp para enviar directamente la consulta a nuestro número <strong style="color: #2E7D32;">+34 639 17 06 13</strong> 📲.<br><br>
+      Asimismo, conservamos tu email <strong style="color: #1565C0;">${email}</strong> para mantener el contacto y resolver todas tus dudas sobre el alquiler de campers en Vitoria-Gasteiz.
     `;
     modal.classList.add('is-open');
   } else {
-    alert(`¡Gracias ${nombre}! Tu mensaje ha sido enviado a info@camperelite.es y hemos recibido una copia para ${email}. Te responderemos a la mayor brevedad posible.`);
+    alert(`¡Gracias ${nombre}! Se ha iniciado el mensaje de WhatsApp a +34 639 17 06 13.`);
   }
 }
 
