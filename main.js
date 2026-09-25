@@ -23,69 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 4. Formulario de contacto con envío directo a WhatsApp (639170613) y backend
-  const contactForm = document.getElementById('contactForm') || document.querySelector('form');
-  if (contactForm) {
-    contactForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const nombreInput = contactForm.querySelector('#nombre');
-      const emailInput = contactForm.querySelector('#email');
-      const mensajeInput = contactForm.querySelector('#mensaje');
-      const submitBtn = contactForm.querySelector('#btnEnviarForm') || contactForm.querySelector('button[type="submit"]');
-
-      const nombre = nombreInput ? nombreInput.value.trim() : '';
-      const email = emailInput ? emailInput.value.trim() : '';
-      const mensaje = mensajeInput ? mensajeInput.value.trim() : '';
-
-      if (!nombre || !email || !mensaje) {
-        alert('Por favor, rellena todos los campos antes de enviar.');
-        return;
-      }
-
-      // Cambiar estado visual del botón
-      const textoOriginalBtn = submitBtn.innerHTML;
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = 'Abriendo WhatsApp... 📲';
-
-      try {
-        // 1. Generar enlace automático con mensaje pre-redactado para WhatsApp (+34 639 17 06 13)
-        const telefonoWhatsApp = '34639170613';
-        const textoMensaje = `¡Hola Camper Élite! 🚐\n\n` +
-          `Me contacto desde la página web:\n` +
-          `👤 *Nombre:* ${nombre}\n` +
-          `✉️ *Email:* ${email}\n\n` +
-          `📝 *Consulta:* ${mensaje}`;
-        
-        const whatsappURL = `https://wa.me/${telefonoWhatsApp}?text=${encodeURIComponent(textoMensaje)}`;
-
-        // 2. Abrir WhatsApp en una nueva pestaña
-        window.open(whatsappURL, '_blank');
-
-        // 3. Intento opcional de registro en backend local si está activo
-        try {
-          const payload = { nombre, email, mensaje };
-          fetch('http://localhost:8000/api/contacto', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          }).catch(() => {});
-        } catch (err) {}
-
-      } catch (err) {
-        console.warn('Error al preparar mensaje de WhatsApp:', err);
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = textoOriginalBtn;
-
-        // Mostrar el modal de confirmación personalizado al usuario
-        abrirConfirmacionModal(nombre, email);
-        contactForm.reset();
-      }
-    });
-  }
-
-  // 5. Destacar enlace activo en la navegación según el scroll
+  // 4. Destacar enlace activo en la navegación según el scroll
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('nav ul li a');
 
