@@ -1020,3 +1020,9 @@ footer {
     flex-direction: column;
   }
 }
+
+/* ESTILOS PIE DE PÁGINA Y LEGAL */
+.footer-legal a:hover {
+  color: #60A5FA !important;
+  text-decoration: underline !important;
+}
